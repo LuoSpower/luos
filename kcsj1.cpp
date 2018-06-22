@@ -3,28 +3,7 @@
 #include<fstream>
 using namespace std;
 int grsds(float a);
-int v=0;
-int menu(){
-  int i;
-    cout<<"\t\t\t"<<"<-----------¿Î³ÌÉè¼Æ--------->"<<endl;
-	cout<<"\t\t\t"<<"|           1.¶ÁÈ¡           |"<<endl;
-	cout<<"\t\t\t"<<"|           2.±£´æ           |"<<endl;
-	cout<<"\t\t\t"<<"|           3.²éÑ¯           |"<<endl;
-	cout<<"\t\t\t"<<"|           4.ä¯ÀÀ           |"<<endl;
-	cout<<"\t\t\t"<<"|           5.ĞŞ¸Ä           |"<<endl;
-	cout<<"\t\t\t"<<"|           6.É¾³ı           |"<<endl;
-	cout<<"\t\t\t"<<"|           7.Ìí¼Ó           |"<<endl;
-	cout<<"\t\t\t"<<"|           8.ÍË³ö           |"<<endl;
-	cout<<"\t\t\t"<<"<---------------------------->"<<"\n\n"<<endl;
-	cout<<"ÇëÊäÈëÄãÏëÒªÑ¡Ôñ²Ù×÷µÄÏàÓ¦Êı×Ö"<<endl;
-	do
-	{
-		printf("\n\tÇëÊäÈëÄãµÄÑ¡Ôñ£º");
-		scanf("%d", &i);
-	} while (i <= 0 || i>7);
-	return i;
-
-}
+void menu();
 struct zggz{
   int id;
   int gongh;
@@ -34,61 +13,110 @@ struct zggz{
   float yfgz,sfgz;
   float grs;
 };
-void read()
+zggz zggz0[50];   //å…¨å±€å˜é‡æ•°ç»„
+int number;      //å…¨å±€å˜é‡ç»Ÿè®¡äººæ•°
+void read()     //è¯»å–å‡½æ•°
 {
-zggz zggz0;
 ifstream in("gz.dat",ios::binary);
 if(!in)
 {
 cout<<"Cannot open output file.\n";
-	abort();//ÍË³ö³ÌĞò
+	abort();  //é€€å‡ºç¨‹åº
 }
-
-
-	in.read((char *)&zggz0,sizeof(zggz0));
-cout<<zggz0.gongh<<" "<<zggz0.name<<" "<<zggz0.gwgz<<" "<<zggz0.xinjgz<<" "<<zggz0.zwjt<<" "<<zggz0.xiaojgz<<" "<<zggz0.yfgz<<" "<<zggz0.sfgz<<endl;
-	
+in.read((char *)&::zggz0,sizeof(::zggz0));
 	in.close();
-};//¶ÁÈ¡
-void write(zggz zggz0){
+for(int n=0;n<50;n++)
+	{ 
+	if(::zggz0[n].gongh!=NULL)
+		::number=::zggz0[n].gongh;
+	else
+		break;
+	}
+};
+void write(zggz *p,int k){   //ä¿å­˜å‡½æ•°
 
 	ofstream out("gz.dat",ios::binary);
 	if(!out)
 	{
 	cout<<"Cannot open output file.\n";
-	abort();//ÍË³ö³ÌĞò
+	abort();//é€€å‡ºç¨‹åº
 	}
-		out.write((char *)&zggz0,sizeof(zggz0));
+	for(int i=0;i<k+1;i++)
+	{
+		out.write((char *)&*p,sizeof(*p));
+        p++;
+}
 	out.close();
 	
 
-};//±£´æ
-/*void find();//²éÑ¯
-void list();//ä¯ÀÀ
-void modify();//ĞŞ¸Ä
-void del();//É¾³ı*/
-void add()
+};
+void find()     //æŸ¥è¯¢å‡½æ•°
 {
-	zggz zggz1;
+      read();
+	      int j;
+		  cout<<"è¯·è¾“å…¥ä½ è¦æŸ¥è¯¢çš„å·¥å·ï¼š"<<endl;
+		  cin>>j;
+		  if(1<=j&&j<=::number)
+		  {
+		  cout<<::zggz0[j-1].gongh<<" "<<::zggz0[j-1].name<<" "<<::zggz0[j-1].gwgz<<" "<<::zggz0[j-1].xinjgz<<" "<<::zggz0[j-1].zwjt<<" "<<::zggz0[j-1].xiaojgz<<" "<<::zggz0[j-1].yfgz<<" "<<zggz0[j-1].sfgz<<endl;  
+		  }
+	   else
+		   cout<<"æ²¡æœ‰è¿™ä¸€é¡¹æ•°æ®"<<endl;
+	   
+	
+};//æŸ¥è¯¢
+void list()      //æµè§ˆèŒå‘˜ä¿¡æ¯å‡½æ•°
+{   
+	read();
+	for(int i=0;i<::number;i++)
+	{
+
+		cout<<::zggz0[i].gongh<<" "<<::zggz0[i].name<<" "<<::zggz0[i].gwgz<<" "<<::zggz0[i].xinjgz<<" "<<::zggz0[i].zwjt<<" "<<::zggz0[i].xiaojgz<<" "<<::zggz0[i].yfgz<<" "<<zggz0[i].sfgz<<endl;
+	}
+menu();
+};//æµè§ˆ
+/*void modify();//ä¿®æ”¹
+void del();//åˆ é™¤*/
+void add()
+{  int i;
+	zggz zggz1[50],*p;
+	p=zggz1;
+	read();
+	cout<<::number<<endl;
+	for(int j=0;j<::number;j++)
+	{
+	 zggz1[j]=zggz0[j];
+	
+	}
+	for(i=::number;i<100;i++)
+	{
 	int gongh1;
   char name1[20];
   float gwgz1,xinjgz1,zwjt1,xiaojgz1;
-  cout<<"ÇëÒÀ´ÎÊäÈë¹¤ºÅ¡¢ĞÕÃû¡¢¸ÚÎ»¹¤×Ê¡¢Ğ½¼¶¹¤×Ê¡¢Ö°Îñ½òÌù¡¢¼¨Ğ§¹¤×Ê"<<endl;
+  cout<<"è¯·ä¾æ¬¡è¾“å…¥å·¥å·ã€å§“åã€å²—ä½å·¥èµ„ã€è–ªçº§å·¥èµ„ã€èŒåŠ¡æ´¥è´´ã€ç»©æ•ˆå·¥èµ„"<<endl;
   cin>>gongh1>>name1>>gwgz1>>xinjgz1>>zwjt1>>xiaojgz1;
-  zggz1.gongh=gongh1;
-  strcpy(zggz1.name,name1);
-  zggz1.gwgz=gwgz1;
-  zggz1.xinjgz=xinjgz1;
-  zggz1.zwjt=zwjt1;
-  zggz1.xiaojgz=xiaojgz1;
-  zggz1.yfgz=gwgz1+xinjgz1+zwjt1+xiaojgz1;
-  zggz1.grs=grsds(zggz1.yfgz);
-  zggz1.sfgz=zggz1.yfgz-zggz1.grs;
-  write(zggz1);
-	
+  zggz1[i].gongh=gongh1;
+  strcpy(zggz1[i].name,name1);
+  zggz1[i].gwgz=gwgz1;
+  zggz1[i].xinjgz=xinjgz1;
+  zggz1[i].zwjt=zwjt1;
+  zggz1[i].xiaojgz=xiaojgz1;
+  zggz1[i].yfgz=gwgz1+xinjgz1+zwjt1+xiaojgz1;     //è®¡ç®—åº”å‘å·¥èµ„
+  zggz1[i].grs=grsds(zggz1[i].yfgz);              //è®¡ç®—ä¸ªäººæ‰€å¾—ç¨
+  zggz1[i].sfgz=zggz1[i].yfgz-zggz1[i].grs;       //è®¡ç®—å®å‘å·¥èµ„
+  cout<<"æ˜¯å¦ç»§ç»­æ·»åŠ ï¼Œ1/0"<<endl;
+	int k;
+	cin>>k;
+	if(k==0)
+	{
+	break;
+	}
+	}
+  write(p,i);
+	menu();     //è°ƒç”¨èœå•
 
-};//Ìí¼Ó
-int grsds(float a)
+};//æ·»åŠ 
+int grsds(float a)  //è®¡ç®—ä¸ªäººæ‰€å¾—ç¨
 {
 	float i;
 if(a<500)
@@ -111,20 +139,40 @@ else
  i=a-a*0.45;
 return i;
 
-};//¼ÆËã¸öÈËËùµÃË°
-//void tuichu();//ÍË³ö³ÌĞò
+};
+//void tuichu();//é€€å‡ºç¨‹åº
+void menu(){                              //èœå•
+  int i;
+    cout<<"\t\t\t"<<"<-----------è¯¾ç¨‹è®¾è®¡--------->"<<endl;
+	cout<<"\t\t\t"<<"|           1.æŸ¥è¯¢           |"<<endl;
+	cout<<"\t\t\t"<<"|           2.ä¿®æ”¹           |"<<endl;
+	cout<<"\t\t\t"<<"|           3.æ·»åŠ            |"<<endl;
+	cout<<"\t\t\t"<<"|           4.åˆ é™¤           |"<<endl;
+	cout<<"\t\t\t"<<"|           5.ä¿å­˜           |"<<endl;
+	cout<<"\t\t\t"<<"|           6.æµè§ˆ           |"<<endl;
+	cout<<"\t\t\t"<<"|           7.é€€å‡º           |"<<endl;
+	cout<<"\t\t\t"<<"<---------------------------->"<<"\n\n"<<endl;
+	cout<<"è¯·è¾“å…¥ä½ æƒ³è¦é€‰æ‹©æ“ä½œçš„ç›¸åº”æ•°å­—"<<endl;
+	do
+	{
+		printf("\n\tè¯·è¾“å…¥ä½ çš„é€‰æ‹©ï¼š");
+		scanf("%d", &i);
+	} while (i <= 0 || i>7);
+	
+switch(i)       //è°ƒç”¨å‡½æ•°
+	{
+            case 1:find();break;//æŸ¥è¯¢
+		//	case 2:modify();break;//ä¿®æ”¹
+			case 3:add();break;//æ·»åŠ 
+		//	case 4:del();break;//åˆ é™¤
+			//case 5:write(zggz *p);break;//ä¿å­˜
+			case 6: list();break;//æµè§ˆ
+		//	case 7:tuichu();break;//é€€å‡º
+	}
+}
 int main()
 {  
-	switch(menu())
-	{
-			/*case 1:find();break;
-			case 2:list();break;
-			case 3:modify();break;*/
-			case 4:add();break;
-			//case 5:del();break;
-			case 6: read();break;
-		//	case 7:tuichu();break;
-	}
+	menu();
 	return 0;
 
 }
